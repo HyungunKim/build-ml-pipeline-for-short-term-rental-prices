@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+"""
+Download from W&B the raw dataset and apply some basic data cleaning, exporting the result to a new artifact
+"""
+import argparse
+import logging
+import wandb
+
+
+logger = logging.getLogger(__name__)
+console_handler = logging.StreamHandler()
+file_handler = logging.FileHandler("basic_cleaning.log")
+file_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s -%(filename)s/%(funcName)s - %(message)s')
+console_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+logger.setLevel(logging.INFO)
+
+def go(args):
+
+    run = wandb.init(job_type="basic_cleaning")
+    run.config.update(args)
+
+    # Download input artifact. This will also log that this script is using this
+    # particular version of the artifact
+    # artifact_local_path = run.use_artifact(args.input_artifact).file()
+
+    ######################
+    # YOUR CODE HERE     #
+    ######################
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description="A very basic data cleaning")
+
+
+    parser.add_argument(
+        "--input_artifact", 
+        type=str,
+        help="Data to perform data cleaning",
+        required=True
+    )
+
+    parser.add_argument(
+        "--output_artifact", 
+        type=str,
+        help="Cleaned data artifact name",
+        required=True
+    )
+
+    parser.add_argument(
+        "--output_type", 
+        type=str,
+        help='specify type for the output artifact',
+        required=True
+    )
+
+    parser.add_argument(
+        "--output_description", 
+        type=str,
+        help='short description for the output artifact',
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_price", 
+        type=float,
+        help='minimum price of rent to filter',
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_price", 
+        type=float,
+        help='max price of house rent to filter',
+        required=True
+    )
+
+
+    args = parser.parse_args()
+
+    go(args)
