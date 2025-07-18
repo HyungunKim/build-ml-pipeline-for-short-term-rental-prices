@@ -84,7 +84,7 @@ def go(config: DictConfig):
                 "main",
                 parameters={
                     "input": "clean_sample.csv:latest",
-                    "test_size": 0.1
+                    "test_size": config['modeling']['test_size']
                 }
             )
             pass
