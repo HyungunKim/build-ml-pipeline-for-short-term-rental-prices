@@ -40,6 +40,10 @@ def go(args):
         description=args.output_description,
     )
     logger.info("df_shape: %s", str(df.shape))
+
+    logger.info("fixing range for long, lat")
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
     with tempfile.TemporaryDirectory() as tmp_dir:
         logger.info("Creating tempdir to save csv")
         csv_path = os.path.join(tmp_dir, 'clean_sample.csv')
